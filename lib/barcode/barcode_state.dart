@@ -23,19 +23,10 @@ class BarcodeReady extends BarcodeState {
   List<Object> get props => [barcodeList];
 }
 
-class FetchBarcodesFailure extends BarcodeState {
+class BarcodeError extends BarcodeState {
   final String error;
 
-  const FetchBarcodesFailure({required this.error});
-
-  @override
-  List<Object> get props => [error];
-}
-
-class AddBarcodeFailure extends BarcodeState {
-  final String error;
-
-  const AddBarcodeFailure({required this.error});
+  const BarcodeError({required this.error});
 
   @override
   List<Object> get props => [error];

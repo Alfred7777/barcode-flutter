@@ -21,8 +21,8 @@ class BarcodeBloc extends Bloc<BarcodeEvent, BarcodeState> {
         );
       } catch (exception) {
         emit(
-          FetchBarcodesFailure(
-            error: exception.toString(),
+          const BarcodeError(
+            error: 'Wczytanie listy barkodów nie powiodło się!',
           ),
         );
       }
@@ -43,8 +43,30 @@ class BarcodeBloc extends Bloc<BarcodeEvent, BarcodeState> {
         );
       } catch (exception) {
         emit(
-          AddBarcodeFailure(
-            error: exception.toString(),
+          const BarcodeError(
+            error: 'Zapisanie barkodu nie powiodło się!',
+          ),
+        );
+      }
+    });
+
+    on<RemoveBarcode>((event, emit) async {
+      emit(BarcodeLoading());
+      try {
+        await barcodeRepository.removeBarcode(
+          event.barcode,
+        );
+        var _barcodeList = await barcodeRepository.getBarcodes();
+
+        emit(
+          BarcodeReady(
+            barcodeList: _barcodeList,
+          ),
+        );
+      } catch (exception) {
+        emit(
+          const BarcodeError(
+            error: 'Usunięcie zapisanego barkodu nie powiodło się!',
           ),
         );
       }

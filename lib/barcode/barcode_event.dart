@@ -17,3 +17,11 @@ class AddBarcode extends BarcodeEvent {
     required this.barcode,
   });
 }
+
+class RemoveBarcode extends BarcodeEvent {
+  final Barcode barcode;
+
+  const RemoveBarcode({
+    required this.barcode,
+  });
+}

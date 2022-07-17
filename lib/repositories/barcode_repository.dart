@@ -34,6 +34,20 @@ class BarcodeRepository {
 
     prefs.setStringList('barcodes', _barcodeStringList);
   }
+
+  Future<void> removeBarcode(Barcode barcode) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    List<String> _barcodeStringList = [];
+    if (prefs.containsKey('barcodes')) {
+      _barcodeStringList = prefs.getStringList('barcodes') ?? [];
+    }
+
+    var _barcodeString = jsonEncode(barcode);
+    _barcodeStringList.remove(_barcodeString);
+
+    prefs.setStringList('barcodes', _barcodeStringList);
+  }
 }
 
 class Barcode extends Equatable {
@@ -55,11 +69,11 @@ class Barcode extends Equatable {
     );
   }
 
-  static Map<String, dynamic> toJson(Barcode barcode) {
+  Map<String, dynamic> toJson() {
     return {
-      'id': barcode.id,
-      'code': barcode.code,
-      'creation_date': barcode.creationDate,
+      'id': id,
+      'code': code,
+      'creation_date': creationDate,
     };
   }
 

@@ -3,10 +3,12 @@ import 'package:barcode_reader/repositories/barcode_repository.dart';
 
 class BarcodeList extends StatelessWidget {
   final List<Barcode> barcodeList;
+  final Function removeBarcode;
 
   const BarcodeList({
     Key? key,
     required this.barcodeList,
+    required this.removeBarcode,
   }) : super(key: key);
 
   @override
@@ -17,6 +19,7 @@ class BarcodeList extends StatelessWidget {
         return BarcodeListElement(
           index: index,
           barcode: barcodeList[index],
+          removeBarcode: removeBarcode,
         );
       },
     );
@@ -26,20 +29,21 @@ class BarcodeList extends StatelessWidget {
 class BarcodeListElement extends StatelessWidget {
   final int index;
   final Barcode barcode;
+  final Function removeBarcode;
 
   const BarcodeListElement({
     Key? key,
     required this.index,
     required this.barcode,
+    required this.removeBarcode,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 56,
-      color: index % 2 == 0 
-          ? Colors.blueGrey.shade800 
-          : Colors.blueGrey.shade900,
+      color:
+          index % 2 == 0 ? Colors.blueGrey.shade800 : Colors.blueGrey.shade900,
       child: Row(
         children: <Widget>[
           Expanded(
@@ -65,7 +69,9 @@ class BarcodeListElement extends StatelessWidget {
               width: 36,
               height: 36,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  removeBarcode(barcode);
+                },
                 child: const Icon(
                   Icons.close,
                   size: 20,
@@ -107,6 +113,7 @@ class BarcodeListElementText extends StatelessWidget {
         fontSize: fontSize,
         fontWeight: FontWeight.w400,
       ),
+      overflow: TextOverflow.ellipsis,
     );
   }
 }
